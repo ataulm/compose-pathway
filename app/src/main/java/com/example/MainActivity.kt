@@ -4,8 +4,12 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -35,13 +39,20 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun MainContent(names: List<String> = listOf("Android", "ios")) {
-    val counterState = rememberSaveable { mutableStateOf(0) }
-    Column {
-        names.forEach {
-            Greeting(name = it)
+fun Names(names: List<String>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(items = names) { name ->
+            Greeting(name = name)
             Divider(color = Color.Black)
         }
+    }
+}
+
+@Composable
+fun MainContent(names: List<String> = listOf("Android", "ios")) {
+    val counterState = rememberSaveable { mutableStateOf(0) }
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Names(modifier = Modifier.weight(1f), names = List(1000) {"Hello Android $it"})
         Counter(
             count = counterState.value,
             onClick = {
@@ -52,8 +63,14 @@ fun MainContent(names: List<String> = listOf("Android", "ios")) {
 }
 
 @Composable
-fun Counter(count: Int, onClick: () -> Unit) {
-    Button(onClick = { onClick() }) {
+fun Counter(count: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Button(
+        modifier = modifier,
+        onClick = { onClick() },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (count > 5) Color.Green else Color.White
+        )
+    ) {
         Text("I've been clicked $count times.")
     }
 }
