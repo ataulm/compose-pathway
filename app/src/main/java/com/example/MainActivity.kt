@@ -10,7 +10,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,22 +36,24 @@ fun DefaultPreview() {
 
 @Composable
 fun MainContent(names: List<String> = listOf("Android", "ios")) {
+    val counterState = rememberSaveable { mutableStateOf(0) }
     Column {
         names.forEach {
             Greeting(name = it)
             Divider(color = Color.Black)
         }
-
-        Counter()
+        Counter(
+            count = counterState.value,
+            onClick = {
+                counterState.value += 1
+            }
+        )
     }
 }
 
 @Composable
-fun Counter() {
-
-    val count = remember { mutableStateOf(0) }
-
-    Button(onClick = { count.value++ }) {
-        Text("I've been clicked ${count.value} times.")
+fun Counter(count: Int, onClick: () -> Unit) {
+    Button(onClick = { onClick() }) {
+        Text("I've been clicked $count times.")
     }
 }
