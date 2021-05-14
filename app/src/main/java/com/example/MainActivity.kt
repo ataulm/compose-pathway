@@ -12,10 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -74,7 +71,8 @@ fun Greeting(name: String, onClick: () -> Unit) {
         modifier = Modifier
             .padding(24.dp)
             .background(color = backgroundColor)
-            .clickable(onClick = { isSelected = !isSelected })
+            .clickable(onClick = { isSelected = !isSelected }),
+        style = MaterialTheme.typography.h1.copy()
     )
 }
 
