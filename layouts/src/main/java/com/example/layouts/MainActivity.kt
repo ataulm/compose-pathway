@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PhotographerCard(modifier: Modifier = Modifier) {
     Row(modifier
+        .fillMaxWidth()
         .padding(8.dp)
         .clip(RoundedCornerShape(4.dp))
         .background(MaterialTheme.colors.surface)

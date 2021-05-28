@@ -39,7 +39,7 @@ fun MainContent(names: List<String> = listOf("Android", "ios")) {
     Column(modifier = Modifier.fillMaxHeight()) {
         Names(
             modifier = Modifier.weight(1f),
-            names = List(1000) { "Hello Android $it" },
+            names = names,
             onClick = { counterState.value = counterState.value + 1 }
         )
         Counter(
