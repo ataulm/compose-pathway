@@ -2,4 +2,5 @@
     <string name="app_name">layouts</string>
     <string name="title_activity_scaffold">ScaffoldActivity</string>
     <string name="title_activity_custom_layout">CustomLayoutActivity</string>
+    <string name="title_activity_constraint_layout">ConstraintLayoutActivity</string>
 </resources>

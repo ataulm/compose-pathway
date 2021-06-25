@@ -38,7 +38,6 @@ fun Greeting() {
         Text("vertically.")
         Text("We've done it by hand!")
     }
-//    Text(text = "Hello $name!", Modifier.firstBaselineToTop(32.dp))
 }
 
 fun Modifier.firstBaselineToTop(firstBaselineToTop: Dp): Modifier {
