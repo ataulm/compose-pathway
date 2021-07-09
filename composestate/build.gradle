@@ -8,8 +8,8 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.layouts"
-        minSdk 23
+        applicationId "com.example.composestate"
+        minSdk 22
         targetSdk 30
         versionCode 1
         versionName "1.0"

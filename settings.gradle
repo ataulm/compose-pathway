@@ -9,3 +9,4 @@ dependencyResolutionManagement {
 rootProject.name = "ComposeBasics"
 include ':app'
 include ':layouts'
+include ':composestate'
