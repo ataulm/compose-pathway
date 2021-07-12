@@ -16,6 +16,7 @@
 
 package com.codelabs.state.todo
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,8 +26,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +51,9 @@ fun TodoScreen(
     onRemoveItem: (TodoItem) -> Unit
 ) {
     Column {
+        TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
+            TodoItemInput(onItemComplete = onAddItem)
+        }
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(top = 8.dp)
@@ -106,6 +113,43 @@ private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)
 }
 
+@Composable
+fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+    val (text, setText) = remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier.background(
+            color = listOf(
+                Color.Yellow,
+                Color.Magenta,
+                Color.Green
+            ).random()
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                .background(color = listOf(Color.Black, Color.Gray, Color.Blue).random())
+        ) {
+            TodoInputText(
+                text = text,
+                onTextChange = setText,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
+            )
+            TodoEditButton(
+                onClick = {
+                    onItemComplete(TodoItem(text))
+                    setText("")
+                },
+                text = "Add",
+                modifier = Modifier.align(Alignment.CenterVertically),
+                enabled = text.isNotBlank()
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewTodoScreen() {
@@ -117,6 +161,10 @@ fun PreviewTodoScreen() {
     )
     TodoScreen(items, {}, {})
 }
+
+@Preview
+@Composable
+fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
 
 @Preview
 @Composable
