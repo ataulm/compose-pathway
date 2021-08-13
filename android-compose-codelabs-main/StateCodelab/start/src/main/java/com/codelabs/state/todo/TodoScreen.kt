@@ -16,7 +16,6 @@
 
 package com.codelabs.state.todo
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,7 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,7 +50,7 @@ fun TodoScreen(
 ) {
     Column {
         TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
-            TodoItemInput(onItemComplete = onAddItem)
+            TodoItemEntryInput(onItemComplete = onAddItem)
         }
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -114,7 +112,7 @@ private fun randomTint(): Float {
 }
 
 @Composable
-fun TodoItemInput(
+fun TodoItemEntryInput(
     onItemComplete: (TodoItem) -> Unit,
 ) {
     val (text, setText) = remember { mutableStateOf("") }
@@ -125,6 +123,18 @@ fun TodoItemInput(
         setIcon(TodoIcon.Default)
         setText("")
     }
+    TodoItemInput(text, setText, submitAction, iconsVisible, icon, setIcon)
+}
+
+@Composable
+fun TodoItemInput(
+    text: String,
+    setText: (String) -> Unit,
+    submitAction: () -> Unit,
+    iconsVisible: Boolean,
+    icon: TodoIcon,
+    setIcon: (TodoIcon) -> Unit
+) {
     Column {
         Row(
             modifier = Modifier
@@ -167,7 +177,7 @@ fun PreviewTodoScreen() {
 
 @Preview
 @Composable
-fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
+fun PreviewTodoItemInput() = TodoItemEntryInput(onItemComplete = { })
 
 @Preview
 @Composable
