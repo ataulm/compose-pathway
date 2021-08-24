@@ -147,7 +147,21 @@ fun TodoItemEntryInput(
         setIcon(TodoIcon.Default)
         setText("")
     }
-    TodoItemInput(text, setText, submitAction, iconsVisible, icon, setIcon)
+    TodoItemInput(
+        text = text,
+        setText = setText,
+        submitAction = submitAction,
+        iconsVisible = iconsVisible,
+        icon = icon,
+        setIcon = setIcon,
+        buttonSlot = {
+            TodoEditButton(
+                onClick = submitAction,
+                text = "Add",
+                enabled = text.isNotBlank()
+            )
+        }
+    )
 }
 
 @Composable
@@ -163,6 +177,24 @@ fun TodoItemInlineEditor(
     setText = { onEditItemChange(item.copy(task = it)) },
     setIcon = { onEditItemChange(item.copy(icon = it)) },
     submitAction = onEditDone,
+    buttonSlot = {
+        Row {
+            TextButton(onClick = onEditDone, modifier = Modifier.widthIn(20.dp)) {
+                Text(
+                    text = "\uD83D\uDCBE", // floppy disk
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.width(30.dp)
+                )
+            }
+            TextButton(onClick = onRemoveItem, modifier = Modifier.widthIn(20.dp)) {
+                Text(
+                    text = "❌",
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.width(30.dp)
+                )
+            }
+        }
+    }
 )
 
 @Composable
@@ -172,7 +204,8 @@ fun TodoItemInput(
     submitAction: () -> Unit,
     iconsVisible: Boolean,
     icon: TodoIcon,
-    setIcon: (TodoIcon) -> Unit
+    setIcon: (TodoIcon) -> Unit,
+    buttonSlot: @Composable () -> Unit,
 ) {
     Column {
         Row(
@@ -187,12 +220,8 @@ fun TodoItemInput(
                     .padding(end = 8.dp),
                 onImeAction = submitAction
             )
-            TodoEditButton(
-                onClick = submitAction,
-                text = "Add",
-                modifier = Modifier.align(Alignment.CenterVertically),
-                enabled = text.isNotBlank()
-            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Box(Modifier.align(Alignment.CenterVertically)) { buttonSlot() }
         }
         if (iconsVisible) {
             AnimatedIconRow(icon, setIcon, Modifier.padding(top = 8.dp))
