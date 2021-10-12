@@ -231,7 +231,6 @@ private fun FeaturedPostDarkPreview() {
     FeaturedPost(darkTheme = true)
 }
 
-
 @Preview("Home")
 @Composable
 private fun HomePreview() {
